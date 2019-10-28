@@ -45,7 +45,7 @@ def polygon(t, n, length):
     n: number of sides
     length: length of each side.
     """
-    angle = 360.0/n
+    angle = 360.0 / n
     polyline(t, n, length, angle)
 
 
@@ -63,9 +63,9 @@ def arc(t, r, angle):
 
     # making a slight left turn before starting reduces
     # the error caused by the linear approximation of the arc
-    t.lt(step_angle/2)
+    t.lt(step_angle / 2)
     polyline(t, n, step_length, step_angle)
-    t.rt(step_angle/2)
+    t.rt(step_angle / 2)
 
 
 def circle(t, r):
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     # draw a circle centered on the origin
     radius = 100
     bob.pu()
-    bob.fd(radius)
+    # bob.fd(radius)
     bob.lt(90)
     bob.pd()
     circle(bob, radius)
