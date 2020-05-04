@@ -96,4 +96,3 @@ if __name__ == '__main__':
 
     eight_letters = filter_length(anagram_map, 8)
     print_anagram_sets_in_order(eight_letters)
-    

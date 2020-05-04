@@ -11,11 +11,14 @@ import sys
 import numpy
 import math
 
+
 def println(s):
     print(s, '\n')
 
+
 class FrameError(ValueError):
     """Represents a problem with frame of reference."""
+
 
 class Vector:
     def __init__(self, array, frame=None):
@@ -29,7 +32,7 @@ class Vector:
 
     def __str__(self):
         if self.frame == None:
-            return '^{O}%s' % (str(self.array), )
+            return '^{O}%s' % (str(self.array),)
         else:
             return '^{%s}%s' % (str(self.frame), str(self.array))
 
@@ -52,7 +55,7 @@ class Vector:
 class Rotation:
     def __init__(self, array):
         self.array = array
-    
+
     def __str__(self):
         return 'Rotation\n%s' % str(self.array)
 
@@ -69,12 +72,12 @@ class Rotation:
     def from_axis(axis, theta):
         x, y, z = numpy.ravel(axis.array)
         c = math.cos(theta)
-        u = 1.0-c
-        s = math.sqrt(1.0-c*c)
-        xu, yu, zu = x*u, y*u, z*u
-        v1 = [x*xu + c, x*yu - z*s, x*zu + y*s]
-        v2 = [x*yu + z*s, y*yu + c, y*zu - x*s]
-        v3 = [x*zu - y*s, y*zu + x*s, z*zu + c]
+        u = 1.0 - c
+        s = math.sqrt(1.0 - c * c)
+        xu, yu, zu = x * u, y * u, z * u
+        v1 = [x * xu + c, x * yu - z * s, x * zu + y * s]
+        v2 = [x * yu + z * s, y * yu + c, y * zu - x * s]
+        v3 = [x * zu - y * s, y * zu + x * s, z * zu + c]
         return Rotation(numpy.array([v1, v2, v3]))
 
     def to_axis(self):
@@ -85,7 +88,7 @@ class Rotation:
         return Rotation(numpy.transpose(self.array))
 
     inverse = transpose
-    
+
 
 class Transform:
     """Represents a transform from one Frame to another."""
@@ -110,7 +113,7 @@ class Transform:
             return '_{%s}^{O}T' % self.source.name
         else:
             return '_{%s}^{%s}T' % (self.source.name, self.dest.name)
-            
+
     def __mul__(self, other):
         """Applies a Transform to a Vector or Transform."""
         if isinstance(other, Vector):
@@ -164,7 +167,7 @@ class Frame:
 
     # list of Frames
     roster = []
-    
+
     def __init__(self, name):
         """Instantiate a Frame.
 
@@ -174,7 +177,7 @@ class Frame:
         self.transforms = {}
         Frame.roster.append(self)
 
-    def __str__(self): 
+    def __str__(self):
         return self.name
 
     def add_transform(self, transform):
@@ -191,7 +194,7 @@ class Frame:
     def dests(self):
         """Returns a list of the Frames we know how to Transform to."""
         return self.transforms.keys()
-    
+
 
 class Vertex:
     """Represents a node in a graph."""
@@ -217,7 +220,7 @@ def shortest_path(start, frames):
     frame along the path from start. """
 
     map = dict([(f, Vertex(f)) for f in frames])
-    
+
     length = {}
     for v in map.values():
         for dest in v.frame.transforms:
@@ -235,13 +238,14 @@ def shortest_path(start, frames):
     while queue:
         v = queue.pop()
         for w in v.out:
-            d = v.dist + length[(v,w)]
+            d = v.dist + length[(v, w)]
             if d < w.dist:
                 w.dist = d
                 w.prev = v
                 if w not in queue: queue.append(w)
 
     return map
+
 
 def print_shortest_path(map):
     for source, v in map.items():
@@ -251,6 +255,7 @@ def print_shortest_path(map):
         except:
             print(source, v.dist)
 
+
 def print_length(length):
     for v, w in length:
         print(v.frame.name, w.frame.name, length[(v, w)])
@@ -258,12 +263,11 @@ def print_length(length):
 
 
 def main(name):
+    theta = math.pi / 2
 
-    theta = math.pi/2
-
-    #v_o = Vector.from_list([0, 0, 0], None)
+    # v_o = Vector.from_list([0, 0, 0], None)
     origin = Frame('O')
-    #o_trans = Transform(None, v_o, origin)
+    # o_trans = Transform(None, v_o, origin)
 
     xhat = Vector.from_list([1, 0, 0], origin)
     rx = Rotation.from_axis(xhat, theta)
@@ -273,11 +277,11 @@ def main(name):
     yhat = Vector.from_list([0, 1, 0], a)
     ry = Rotation.from_axis(yhat, theta)
     b = Frame('B')
-    t_ba = Transform(ry, yhat, b) 
-    
+    t_ba = Transform(ry, yhat, b)
+
     zhat = Vector.from_list([0, 0, 1], b)
     rz = Rotation.from_axis(zhat, theta)
-    c = Frame('C') 
+    c = Frame('C')
     t_cb = Transform(rz, zhat, c)
 
     p_c = Vector.from_list([1, 1, 1], c)
@@ -294,7 +298,7 @@ def main(name):
 
     map = shortest_path(origin, Frame.roster)
     print_shortest_path(map)
-    
+
     cbao = t_ao(t_ba(t_cb))
     p = cbao(p_c)
     println(p)
@@ -306,6 +310,6 @@ def main(name):
     map = shortest_path(origin, Frame.roster)
     print_shortest_path(map)
 
-        
+
 if __name__ == '__main__':
     main(*sys.argv)

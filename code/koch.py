@@ -1,16 +1,3 @@
-"""This module contains a code example related to
-
-Think Python, 2nd Edition
-by Allen Downey
-http://thinkpython2.com
-
-Copyright 2015 Allen Downey
-
-License: http://creativecommons.org/licenses/by/4.0/
-"""
-
-from __future__ import print_function, division
-
 import turtle
 
 
@@ -19,7 +6,7 @@ def koch(t, n):
     if n < 10:
         t.fd(n)
         return
-    m = n/3
+    m = n / 3
     koch(t, m)
     t.lt(60)
     koch(t, m)
@@ -44,4 +31,3 @@ bob.pd()
 snowflake(bob, 300)
 
 turtle.mainloop()
-

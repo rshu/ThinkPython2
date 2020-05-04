@@ -14,6 +14,7 @@ from __future__ import print_function, division
 import random
 import string
 
+
 def process_file(filename, skip_header):
     """Makes a histogram that contains the words from a file.
 
@@ -158,5 +159,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-

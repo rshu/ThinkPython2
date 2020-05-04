@@ -1,23 +1,9 @@
-"""This module contains a code example related to
-
-Think Python, 2nd Edition
-by Allen Downey
-http://thinkpython2.com
-
-Copyright 2015 Allen Downey
-
-License: http://creativecommons.org/licenses/by/4.0/
-"""
-
-from __future__ import print_function, division
-
 import math
 import turtle
 
 
 def square(t, length):
     """Draws a square with sides of the given length.
-
     Returns the Turtle to the starting position and location.
     """
     for i in range(4):
@@ -27,7 +13,6 @@ def square(t, length):
 
 def polyline(t, n, length, angle):
     """Draws n line segments.
-
     t: Turtle object
     n: number of line segments
     length: length of each segment
@@ -40,7 +25,6 @@ def polyline(t, n, length, angle):
 
 def polygon(t, n, length):
     """Draws a polygon with n sides.
-
     t: Turtle
     n: number of sides
     length: length of each side.
@@ -51,7 +35,6 @@ def polygon(t, n, length):
 
 def arc(t, r, angle):
     """Draws an arc with the given radius and angle.
-
     t: Turtle
     r: radius
     angle: angle subtended by the arc, in degrees
@@ -70,7 +53,6 @@ def arc(t, r, angle):
 
 def circle(t, r):
     """Draws a circle with the given radius.
-
     t: Turtle
     r: radius
     """
@@ -86,9 +68,13 @@ if __name__ == '__main__':
 
     # draw a circle centered on the origin
     radius = 100
+
+    # pen up
     bob.pu()
     # bob.fd(radius)
     bob.lt(90)
+
+    # pen down, leave a trail when it moves
     bob.pd()
     circle(bob, radius)
 
