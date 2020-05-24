@@ -11,7 +11,7 @@ License: http://creativecommons.org/licenses/by/4.0/
 
 from __future__ import print_function, division
 
-from rotate import rotate_word
+from rotate_Caesar_cipher import rotate_word
 
 
 def make_word_dict():
